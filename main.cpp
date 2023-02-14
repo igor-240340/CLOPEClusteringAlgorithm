@@ -22,20 +22,26 @@ int main()
 
     //inFile.close();
 
-    float clusterizationProfit = 0;
+    float r = 2.6;  // repulsion.
+    float profit = 0;   // Качество кластеризации Profit(C).
 
     Dataset data;
     std::list<Cluster> clusters;
     Transaction t;
 
+    Cluster dummy;
+
     // Инициализация.
     while (data.ReadNextTransaction(t)) {
         std::cout << "Transaction: " << t.name << std::endl;
 
+        Cluster& max = dummy;
         for (const auto& c : clusters) {
-            float d = c.EstimateDeltaQuality(t);
-            std::cout << "delta: " << d << std::endl;
+            float dQuality = c.EstimateAdd(t);
+            std::cout << "delta: " << dQuality << std::endl;
         }
+
+        max.Add(t);
 
         data.WriteTransaction(t);
     }

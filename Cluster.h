@@ -9,5 +9,6 @@ public:
     float quality;
 
     // Оценивает изменение качества кластера в случае добавления транзакции.
-    float EstimateDeltaQuality(Transaction&) const;
+    float EstimateAdd(Transaction&) const;
+    void Add(Transaction&);
 };
