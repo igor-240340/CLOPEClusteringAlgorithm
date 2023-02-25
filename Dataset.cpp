@@ -20,3 +20,7 @@ bool Dataset::ReadNextTransaction(Transaction& t) {
 void Dataset::WriteTransaction(Transaction& t) {
     std::cout << "Dataset::WriteTransaction. t.name = " << t.name << std::endl;
 }
+
+void Dataset::Rewind() {
+    std::cout << "Dataset::Rewind" << std::endl;
+}

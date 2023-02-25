@@ -11,4 +11,9 @@ public:
     // Оценивает изменение качества кластера в случае добавления транзакции.
     float EstimateAdd(Transaction&) const;
     void Add(Transaction&);
+
+    bool IsEmpty() { return isEmpty; };
+
+private:
+    bool isEmpty = true;
 };

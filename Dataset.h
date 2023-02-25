@@ -10,4 +10,5 @@ class Dataset
 public:
     bool ReadNextTransaction(Transaction&);
     void WriteTransaction(Transaction&);
+    void Rewind();
 };
