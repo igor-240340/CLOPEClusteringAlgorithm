@@ -6,7 +6,7 @@
 class Transaction
 {
 public:
-    int clusterId;
+    unsigned int clusterId;
 
     std::list<std::string> items;
 

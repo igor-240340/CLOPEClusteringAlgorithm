@@ -15,5 +15,6 @@ public:
     void Rewind();
 
 private:
-    std::fstream file;
+    std::fstream fileIn;
+    std::ofstream fileOut;
 };

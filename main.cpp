@@ -6,26 +6,12 @@
 #include "Cluster.h"
 #include "Transaction.h"
 
+static const float REPULSION = 2.6f;
+
 int main()
 {
-    /*std::ifstream inFile("Data/agaricus-lepiota.data");
-    if (!inFile) {
-        std::cout << "Can't open file." << std::endl;
-        exit(1);
-    }*/
-
-    // Инициализация
-    /*std::string transaction;
-    while (inFile >> transaction) {
-        std::cout << transaction << std::endl;
-    }*/
-
-    //inFile.close();
-
-    float r = 2.6;      // repulsion.
-    float profit = 0;   // Качество кластеризации Profit(C).
-
     Dataset data("agaricus-lepiota.data");
+
     Cluster emptyCluster;
     std::list<Cluster> clusters = { emptyCluster }; // В конце списка всегда будем держать пустой кластер для оценки Profit.
     Transaction t;
@@ -35,8 +21,8 @@ int main()
         Cluster* max = nullptr; // Кластер, добавление в который текущей транзакции максимизирует Profit.
         float dQualityMax = 0;
         for (auto& c : clusters) {
-            float dQuality = c.EstimateAdd(t);
-            std::cout << "quality change: " << dQuality << std::endl;
+            float dQuality = c.EstimateAdd(t, REPULSION);
+            //std::cout << "quality change: " << dQuality << std::endl;
 
             if (dQuality > dQualityMax) {
                 dQualityMax = dQuality;
@@ -48,53 +34,53 @@ int main()
         // то создаем новый кластер, а пустой оставляем нетронутым для дальнейших проверок.
         if ((*max).IsEmpty()) {
             Cluster newClaster;
-            newClaster.Add(t);
+            newClaster.Add(t, REPULSION);
             clusters.push_back(newClaster);
         }
         else {
-            (*max).Add(t);
+            (*max).Add(t, REPULSION);
         }
 
         data.WriteTransaction(t);
     }
 
     // Максимизация Profit.
-    bool moved = false;
-    do {
-        data.Rewind();
-        while (data.ReadNextTransaction(t)) {
-            int prevClusterId = t.clusterId;
-            bool prevClusterEmpty = t.RemoveFromCurrentCluster();
+    //bool moved = false;
+    //do {
+    //    data.rewind();
+    //    while (data.readnexttransaction(t)) {
+    //        int prevclusterid = t.clusterid;
+    //        bool prevclusterempty = t.removefromcurrentcluster();
 
-            Cluster* max = nullptr;
-            float dQualityMax = 0;
-            for (auto& c : clusters) {
-                float dQuality = c.EstimateAdd(t);
-                std::cout << "delta: " << dQuality << std::endl;
+    //        cluster* max = nullptr;
+    //        float dqualitymax = 0;
+    //        for (auto& c : clusters) {
+    //            float dquality = c.estimateadd(t);
+    //            std::cout << "delta: " << dquality << std::endl;
 
-                if (dQuality > dQualityMax) {
-                    dQualityMax = dQuality;
-                    max = &c;
-                }
-            }
+    //            if (dquality > dqualitymax) {
+    //                dqualitymax = dquality;
+    //                max = &c;
+    //            }
+    //        }
 
-            if ((*max).IsEmpty()) {
-                Cluster newClaster;
-                newClaster.Add(t);
-                clusters.push_back(newClaster);
+    //        if ((*max).isempty()) {
+    //            cluster newclaster;
+    //            newclaster.add(t);
+    //            clusters.push_back(newclaster);
 
-                // Если транзакция до этого была единственной в своем кластере, 
-                // то добавление её в пустой кластер эквивалентно возврату в прежний: то есть, перемещения нет.
-                if (!prevClusterEmpty)
-                    moved = true;
-            }
-            else {
-                (*max).Add(t);
-                if ((*max).clusterId != prevClusterId)
-                    moved = true;
-            }
+    //            // если транзакция до этого была единственной в своем кластере, 
+    //            // то добавление её в пустой кластер эквивалентно возврату в прежний: то есть, перемещения нет.
+    //            if (!prevclusterempty)
+    //                moved = true;
+    //        }
+    //        else {
+    //            (*max).add(t);
+    //            if ((*max).clusterid != prevclusterid)
+    //                moved = true;
+    //        }
 
-            data.WriteTransaction(t);
-        }
-    } while (moved);
+    //        data.writetransaction(t);
+    //    }
+    //} while (moved);
 }
