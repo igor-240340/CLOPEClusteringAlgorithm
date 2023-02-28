@@ -25,38 +25,34 @@ int main()
     float r = 2.6;      // repulsion.
     float profit = 0;   // Качество кластеризации Profit(C).
 
-    Dataset data;
+    Dataset data("agaricus-lepiota.data");
     Cluster emptyCluster;
     std::list<Cluster> clusters = { emptyCluster }; // В конце списка всегда будем держать пустой кластер для оценки Profit.
     Transaction t;
 
-    Cluster dummy;
-
     // Инициализация.
     while (data.ReadNextTransaction(t)) {
-        std::cout << "Transaction: " << t.name << std::endl;
-
-        Cluster& max = dummy;   // Кластер, добавление в который текущей транзакции максимизирует Profit.
+        Cluster* max = nullptr; // Кластер, добавление в который текущей транзакции максимизирует Profit.
         float dQualityMax = 0;
-        for (const auto& c : clusters) {
+        for (auto& c : clusters) {
             float dQuality = c.EstimateAdd(t);
-            std::cout << "delta: " << dQuality << std::endl;
+            std::cout << "quality change: " << dQuality << std::endl;
 
             if (dQuality > dQualityMax) {
                 dQualityMax = dQuality;
-                max = c;
+                max = &c;
             }
         }
 
         // Если Profit максимизируется добавлением в пустой кластер,
         // то создаем новый кластер, а пустой оставляем нетронутым для дальнейших проверок.
-        if (max.IsEmpty()) {
+        if ((*max).IsEmpty()) {
             Cluster newClaster;
             newClaster.Add(t);
             clusters.push_back(newClaster);
         }
         else {
-            max.Add(t);
+            (*max).Add(t);
         }
 
         data.WriteTransaction(t);
@@ -67,30 +63,36 @@ int main()
     do {
         data.Rewind();
         while (data.ReadNextTransaction(t)) {
-            // Удалить транзакцию из кластера
+            int prevClusterId = t.clusterId;
+            bool prevClusterEmpty = t.RemoveFromCurrentCluster();
 
-            Cluster& max = dummy;
+            Cluster* max = nullptr;
             float dQualityMax = 0;
-            for (const auto& c : clusters) {
+            for (auto& c : clusters) {
                 float dQuality = c.EstimateAdd(t);
                 std::cout << "delta: " << dQuality << std::endl;
 
                 if (dQuality > dQualityMax) {
                     dQualityMax = dQuality;
-                    max = c;
+                    max = &c;
                 }
             }
 
-            if (max.IsEmpty()) {
+            if ((*max).IsEmpty()) {
                 Cluster newClaster;
                 newClaster.Add(t);
                 clusters.push_back(newClaster);
-            }
-            else
-                max.Add(t);
 
-            // Если транзакция не возвращается в свой прежний кластер, то
-            // moved = true;
+                // Если транзакция до этого была единственной в своем кластере, 
+                // то добавление её в пустой кластер эквивалентно возврату в прежний: то есть, перемещения нет.
+                if (!prevClusterEmpty)
+                    moved = true;
+            }
+            else {
+                (*max).Add(t);
+                if ((*max).clusterId != prevClusterId)
+                    moved = true;
+            }
 
             data.WriteTransaction(t);
         }

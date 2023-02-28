@@ -1,24 +1,33 @@
 #include <iostream>
+#include <sstream>
 
 #include "Dataset.h"
 
-//Dataset::Dataset() {
-//    std::cout << "Dataset()" << std::endl;
-//}
+Dataset::Dataset(std::string fileName) {
+    file.open(fileName);
+    if (file.fail())
+        exit(1);
+}
 
-//Dataset::~Dataset() {
-//    std::cout << "~Dataset()" << std::endl;
-//}
+Dataset::~Dataset() {
+    file.close();
+}
 
 bool Dataset::ReadNextTransaction(Transaction& t) {
-    std::cout << "Dataset::ReadNextTransaction" << std::endl;
+    std::string line;
+    file >> line;
 
-    t.name = "foo";
+    std::stringstream ss(line);
+    while (ss.good()) {
+        std::string itemValue;
+        std::getline(ss, itemValue, ',');
+        t.items.push_back(itemValue);
+    }
+
     return true;
 }
 
 void Dataset::WriteTransaction(Transaction& t) {
-    std::cout << "Dataset::WriteTransaction. t.name = " << t.name << std::endl;
 }
 
 void Dataset::Rewind() {

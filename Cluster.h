@@ -1,19 +1,28 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "Transaction.h"
 
 class Cluster
 {
 public:
-    // Мера качества кластера. Определена как градиент на мощность кластера: G(C) * |C|.
-    float quality;
+    int clusterId;
 
-    // Оценивает изменение качества кластера в случае добавления транзакции.
-    float EstimateAdd(Transaction&) const;
+    // Оценивает изменение качества кластера при добавлении транзакции.
+    float EstimateAdd(Transaction&);
     void Add(Transaction&);
 
     bool IsEmpty() { return isEmpty; };
 
 private:
     bool isEmpty = true;
+
+    // Мера качества кластера. (S * |C|) / W^r.
+    float quality = 0;
+    int transactionCount = 0;
+    int size = 0;
+    int width = 0;
+
+    std::unordered_map<std::string, int> itemToOccurence;
 };

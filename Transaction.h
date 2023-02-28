@@ -1,9 +1,14 @@
 #pragma once
 
 #include <iostream> 
+#include <list> 
 
 class Transaction
 {
 public:
-    std::string name;
+    int clusterId;
+
+    std::list<std::string> items;
+
+    bool RemoveFromCurrentCluster();
 };
