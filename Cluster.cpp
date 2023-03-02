@@ -6,7 +6,7 @@ Cluster::Cluster() {
     id = NEXT_CLUSTER_ID++;
 }
 
-float Cluster::EstimateAdd(Transaction& t, float repulsion) {
+double Cluster::EstimateAdd(Transaction& t, double repulsion) {
     int newSize = size + t.items.size();
     int newWidth = itemToOccurence.size();
     for (const auto& i : t.items) {
@@ -15,11 +15,11 @@ float Cluster::EstimateAdd(Transaction& t, float repulsion) {
         }
     }
 
-    float newQuality = newSize * (transactionCount + 1) / pow(newWidth, repulsion);
+    double newQuality = (double)newSize * (double)(transactionCount + 1) / pow(newWidth, repulsion);
     return newQuality - quality;
 }
 
-void Cluster::Add(Transaction& t, float repulsion) {
+void Cluster::Add(Transaction& t, double repulsion) {
     for (const auto& i : t.items) {
         itemToOccurence[i]++;
         size++;
@@ -28,9 +28,23 @@ void Cluster::Add(Transaction& t, float repulsion) {
     transactionCount++;
 
     int width = itemToOccurence.size();
-    quality = size * transactionCount / pow(width, repulsion);
+    quality = (double)size * transactionCount / pow(width, repulsion);
 
     t.clusterId = id;
 
     isEmpty = false;
+}
+
+void Cluster::Remove(Transaction& t, double repulsion) {
+    size = size - t.items.size();
+    isEmpty = --transactionCount == 0;
+
+    for (const auto& i : t.items) {
+        if (--itemToOccurence[i] == 0) {
+            itemToOccurence.erase(i);
+        }
+    }
+
+    int width = itemToOccurence.size();
+    quality = (double)size * transactionCount / pow(width, repulsion);
 }

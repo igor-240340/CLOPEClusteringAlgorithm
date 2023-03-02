@@ -3,12 +3,19 @@
 
 #include "Dataset.h"
 
-Dataset::Dataset(std::string fileName) {
+Dataset::Dataset() {
+}
+void Dataset::OpenFile(std::string fileName, std::string postfix) {
     fileIn.open(fileName);
-    fileOut.open(fileName + "_after_init");
+    fileOut.open(postfix);
 
     if (fileIn.fail() || fileOut.fail())
         exit(1);
+}
+
+void Dataset::CloseFiles() {
+    fileIn.close();
+    fileOut.close();
 }
 
 Dataset::~Dataset() {
@@ -31,9 +38,26 @@ bool Dataset::ReadNextTransaction(Transaction& t) {
         std::string itemValue;
         std::getline(ss, itemValue, ',');
 
+        // Если у транзакции есть номер кластера.
+        int clusterId = -1;
+        if (attributeIndex > 20) {
+            try {
+                clusterId = std::stoi(itemValue.c_str(), nullptr, 10);
+                t.clusterId = clusterId;
+            }
+            catch (std::invalid_argument const& ex)
+            {
+                //std::cout << "std::invalid_argument::what(): " << ex.what() << std::endl;
+            }
+            catch (std::out_of_range const& ex)
+            {
+                //std::cout << "std::out_of_range::what(): " << ex.what() << std::endl;
+            }
+        }
+
         // Пропускаем, если для текущего атрибута значение не определено.
-        if (itemValue != "?") {
-            t.items.push_back(itemValue + std::to_string(attributeIndex));
+        if (itemValue != "?" && clusterId == -1) {
+            t.items.push_back(itemValue.length() > 1 ? itemValue : itemValue + std::to_string(attributeIndex));
         }
 
         attributeIndex++;
@@ -47,7 +71,7 @@ void Dataset::WriteTransaction(Transaction& t) {
         fileOut << i << ",";
     }
 
-    fileOut << ": " << std::to_string(t.clusterId) << std::endl;
+    fileOut << std::to_string(t.clusterId) << std::endl;
 }
 
 void Dataset::Rewind() {

@@ -9,9 +9,14 @@ class Cluster
 public:
     Cluster();
 
-    float EstimateAdd(Transaction&, float repulsion);   // Оценивает изменение качества кластера при добавлении транзакции.
-    void Add(Transaction&, float repulsion);
+    double EstimateAdd(Transaction& t, double repulsion);   // Оценивает изменение качества кластера при добавлении транзакции.
+    void Add(Transaction& t, double repulsion);
+    void Remove(Transaction& t, double repulsion);
     bool IsEmpty() { return isEmpty; };
+
+    // Для list.remove().
+    bool operator == (const Cluster& c) const { return id == c.id; }
+    bool operator != (const Cluster& c) const { return !operator==(c); }
 
     unsigned int id;
 
@@ -21,7 +26,7 @@ private:
     bool isEmpty = true;
 
     // Мера качества кластера: (S * |C|) / W^repulsion.
-    float quality = 0;
+    double quality = 0;
 
     int transactionCount = 0;
     int size = 0;   // Количество всех item (сумма по каждой транзакции).

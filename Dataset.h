@@ -7,11 +7,14 @@
 class Dataset
 {
 public:
-    Dataset(std::string fileName);
+    Dataset();
     ~Dataset();
 
-    bool ReadNextTransaction(Transaction&);
-    void WriteTransaction(Transaction&);
+    void OpenFile(std::string fileName, std::string postfix);
+    void CloseFiles();
+
+    bool ReadNextTransaction(Transaction& t);
+    void WriteTransaction(Transaction& t);
     void Rewind();
 
 private:
