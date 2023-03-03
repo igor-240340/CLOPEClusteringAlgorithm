@@ -8,7 +8,8 @@
 #include "Cluster.h"
 #include "Transaction.h"
 
-static const float REPULSION = 2.6f;
+//static const double REPULSION = 2.6;
+static const double REPULSION = 2;
 
 int main()
 {
@@ -24,6 +25,7 @@ int main()
     while (data.ReadNextTransaction(t)) {
         Cluster* max = nullptr; // Кластер, добавление в который текущей транзакции максимизирует Profit.
         double dQualityMax = 0;
+
         for (auto& c : clusters) {
             double dQuality = c.EstimateAdd(t, REPULSION);
             //std::cout << "quality change: " << dQuality << std::endl;
@@ -58,6 +60,9 @@ int main()
         data.OpenFile("agaricus-lepiota_" + std::to_string(sfix) + ".data", "agaricus-lepiota_" + std::to_string(sfix + 1) + ".data");
 
         while (data.ReadNextTransaction(t)) {
+            if (t.sourceString == "e0,x1,s2,c3,t4,n5,f6,c7,b8,w9,e10,b11,s12,s13,w14,w15,p16,w17,t18,p19,w20,v21,p22,18")
+                std::cout << "h";
+
             Cluster& prevCluster = *(idToCluster[t.clusterId]);
             prevCluster.Remove(t, REPULSION);
             int prevClusterId = prevCluster.id;
@@ -104,4 +109,18 @@ int main()
         sfix++;
         moved = false;
     } while (moved);
+
+    data.OpenFile("agaricus-lepiota_" + std::to_string(sfix) + ".data", "agaricus-lepiota_" + std::to_string(sfix + 1) + ".data");
+    std::unordered_map<int, int> clusterToTransactionCount;
+    while (data.ReadNextTransaction(t)) {
+        clusterToTransactionCount[t.clusterId]++;
+    }
+    
+    for (auto entry : clusterToTransactionCount) {
+        auto k = entry.first;
+        auto x = entry.second;
+        std::cout << k << ": " << x << "\n";
+    }
+
+    data.CloseFiles();
 }
