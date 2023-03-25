@@ -1,4 +1,4 @@
-#include "pch.h"
+п»ї#include "pch.h"
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -48,7 +48,7 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Dataset.h
-        // Чтение на фазе инициализации.
+        // Р§С‚РµРЅРёРµ РЅР° С„Р°Р·Рµ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё.
         TEST_METHOD(Dataset_ReadNextTransaction_WithoutClusterId)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -59,7 +59,7 @@ namespace CLOPEClusteringAlgorithmTest
             std::string actualItems1;
             for (auto const& item : t1.items)
                 actualItems1 += item + ",";
-            actualItems1.pop_back(); // Удаляет последнюю запятую.
+            actualItems1.pop_back(); // РЈРґР°Р»СЏРµС‚ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РїСЏС‚СѓСЋ.
             Assert::AreEqual(expectedItems1, actualItems1);
 
             Transaction t2;
@@ -83,7 +83,7 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Dataset.h
-        // Повторное чтение после кластеризации транзакций.
+        // РџРѕРІС‚РѕСЂРЅРѕРµ С‡С‚РµРЅРёРµ РїРѕСЃР»Рµ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё С‚СЂР°РЅР·Р°РєС†РёР№.
         TEST_METHOD(Dataset_WriteTransaction)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -104,7 +104,7 @@ namespace CLOPEClusteringAlgorithmTest
             std::string actualItems1;
             for (auto const& item : t.items)
                 actualItems1 += item + ",";
-            actualItems1.pop_back(); // Удаляет последнюю запятую.
+            actualItems1.pop_back(); // РЈРґР°Р»СЏРµС‚ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РїСЏС‚СѓСЋ.
             Assert::AreEqual(expectedItems1, actualItems1);
             Assert::IsTrue(t.clusterId == 1);
 
@@ -123,20 +123,20 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Cluster.h
-        // Создание нового кластера.
+        // РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ РєР»Р°СЃС‚РµСЂР°.
         TEST_METHOD(Cluster_Constructor)
         {
             Cluster c1;
             Assert::IsTrue(c1.IsEmpty());
 
             Cluster c2;
-            Assert::AreEqual(c2.id, c1.id + 1); // Не могу пока изменить порядок выполнения тестов, поэтому абсолютные значения идентификаторов не проверяю.
+            Assert::AreEqual(c2.id, c1.id + 1); // РќРµ РјРѕРіСѓ РїРѕРєР° РёР·РјРµРЅРёС‚СЊ РїРѕСЂСЏРґРѕРє РІС‹РїРѕР»РЅРµРЅРёСЏ С‚РµСЃС‚РѕРІ, РїРѕСЌС‚РѕРјСѓ Р°Р±СЃРѕР»СЋС‚РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ РЅРµ РїСЂРѕРІРµСЂСЏСЋ.
             Assert::IsTrue(c2.IsEmpty());
         }
 
         //
         // Cluster.h
-        // Оценка дельты качества пустого кластера при добавлении транзакции.
+        // РћС†РµРЅРєР° РґРµР»СЊС‚С‹ РєР°С‡РµСЃС‚РІР° РїСѓСЃС‚РѕРіРѕ РєР»Р°СЃС‚РµСЂР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё С‚СЂР°РЅР·Р°РєС†РёРё.
         TEST_METHOD(Cluster_CalcDeltaQuality_Empty)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -155,7 +155,7 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Cluster.h
-        // Добавление транзакции в пустой кластер.
+        // Р”РѕР±Р°РІР»РµРЅРёРµ С‚СЂР°РЅР·Р°РєС†РёРё РІ РїСѓСЃС‚РѕР№ РєР»Р°СЃС‚РµСЂ.
         TEST_METHOD(Cluster_Add_Empty)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
@@ -174,10 +174,10 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Cluster.h
-        // Оценка дельты качества непустого кластера при добавлении транзакции.
-        // Если дельта качества непустого кластера правильная, значит текущее качество кластера тоже было вычислено правильно.
-        // То есть, этот тест также проверяет, что добавление в пустой кластер правильно вычисляет качество кластера, 
-        // прямой доступ к которому у нас закрыт.
+        // РћС†РµРЅРєР° РґРµР»СЊС‚С‹ РєР°С‡РµСЃС‚РІР° РЅРµРїСѓСЃС‚РѕРіРѕ РєР»Р°СЃС‚РµСЂР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё С‚СЂР°РЅР·Р°РєС†РёРё.
+        // Р•СЃР»Рё РґРµР»СЊС‚Р° РєР°С‡РµСЃС‚РІР° РЅРµРїСѓСЃС‚РѕРіРѕ РєР»Р°СЃС‚РµСЂР° РїСЂР°РІРёР»СЊРЅР°СЏ, Р·РЅР°С‡РёС‚ С‚РµРєСѓС‰РµРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° С‚РѕР¶Рµ Р±С‹Р»Рѕ РІС‹С‡РёСЃР»РµРЅРѕ РїСЂР°РІРёР»СЊРЅРѕ.
+        // РўРѕ РµСЃС‚СЊ, СЌС‚РѕС‚ С‚РµСЃС‚ С‚Р°РєР¶Рµ РїСЂРѕРІРµСЂСЏРµС‚, С‡С‚Рѕ РґРѕР±Р°РІР»РµРЅРёРµ РІ РїСѓСЃС‚РѕР№ РєР»Р°СЃС‚РµСЂ РїСЂР°РІРёР»СЊРЅРѕ РІС‹С‡РёСЃР»СЏРµС‚ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР°, 
+        // РїСЂСЏРјРѕР№ РґРѕСЃС‚СѓРї Рє РєРѕС‚РѕСЂРѕРјСѓ Сѓ РЅР°СЃ Р·Р°РєСЂС‹С‚.
         TEST_METHOD(Cluster_CalcDeltaQuality_NotEmpty)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -188,7 +188,7 @@ namespace CLOPEClusteringAlgorithmTest
             Cluster c;
             c.Add(t, 2.6f);
 
-            // Ожидаемое текущее качество кластера, к которому у нас закрыт доступ.
+            // РћР¶РёРґР°РµРјРѕРµ С‚РµРєСѓС‰РµРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР°, Рє РєРѕС‚РѕСЂРѕРјСѓ Сѓ РЅР°СЃ Р·Р°РєСЂС‹С‚ РґРѕСЃС‚СѓРї.
             int transactionCountCurrentExpected = 1;
             int sizeCurrentExpected = t.items.size();
             int widthCurrentExpected = sizeCurrentExpected;
@@ -197,10 +197,10 @@ namespace CLOPEClusteringAlgorithmTest
             data.ReadNextTransaction(t);
             float deltaQualityActual = c.CalcDeltaQuality(t, 2.6f);
 
-            // Ожидаемое новое качество кластера после добавления второй транзакции.
+            // РћР¶РёРґР°РµРјРѕРµ РЅРѕРІРѕРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїРѕСЃР»Рµ РґРѕР±Р°РІР»РµРЅРёСЏ РІС‚РѕСЂРѕР№ С‚СЂР°РЅР·Р°РєС†РёРё.
             int transactionCountNewExpected = 2;
             int sizeNewExpected = t.items.size() * 2;
-            int widthNewExpected = 32; // Уникальные значения атрибутов (айтемы).
+            int widthNewExpected = 32; // РЈРЅРёРєР°Р»СЊРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ Р°С‚СЂРёР±СѓС‚РѕРІ (Р°Р№С‚РµРјС‹).
             float qualityNewExpected = sizeNewExpected * transactionCountNewExpected / pow(widthNewExpected, 2.6f);
 
             float deltaQualityExpected = qualityNewExpected - qualityCurrentExpected;
@@ -212,7 +212,7 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Cluster.h
-        // Добавление транзакции в непустой кластер.
+        // Р”РѕР±Р°РІР»РµРЅРёРµ С‚СЂР°РЅР·Р°РєС†РёРё РІ РЅРµРїСѓСЃС‚РѕР№ РєР»Р°СЃС‚РµСЂ.
         TEST_METHOD(Cluster_Add_NotEmpty)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -229,20 +229,20 @@ namespace CLOPEClusteringAlgorithmTest
             Assert::IsTrue(!c.IsEmpty());
             Assert::IsTrue(t.clusterId == c.id);
 
-            // Чтобы оценить, правильно ли вычисляется новое качество кластера при добавлении транзакции в непустой кластер
-            // мы оцениваем дельту качества при добавлении третьей транзакции.
-            // Дело в том, что если добавление второй транзакции правильно вычисляет новое качество кластера,
-            // то мы получим правильную оценку изменения качества кластера при добавлении третьей транзакции.
+            // Р§С‚РѕР±С‹ РѕС†РµРЅРёС‚СЊ, РїСЂР°РІРёР»СЊРЅРѕ Р»Рё РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РЅРѕРІРѕРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё С‚СЂР°РЅР·Р°РєС†РёРё РІ РЅРµРїСѓСЃС‚РѕР№ РєР»Р°СЃС‚РµСЂ
+            // РјС‹ РѕС†РµРЅРёРІР°РµРј РґРµР»СЊС‚Сѓ РєР°С‡РµСЃС‚РІР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё С‚СЂРµС‚СЊРµР№ С‚СЂР°РЅР·Р°РєС†РёРё.
+            // Р”РµР»Рѕ РІ С‚РѕРј, С‡С‚Рѕ РµСЃР»Рё РґРѕР±Р°РІР»РµРЅРёРµ РІС‚РѕСЂРѕР№ С‚СЂР°РЅР·Р°РєС†РёРё РїСЂР°РІРёР»СЊРЅРѕ РІС‹С‡РёСЃР»СЏРµС‚ РЅРѕРІРѕРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР°,
+            // С‚Рѕ РјС‹ РїРѕР»СѓС‡РёРј РїСЂР°РІРёР»СЊРЅСѓСЋ РѕС†РµРЅРєСѓ РёР·РјРµРЅРµРЅРёСЏ РєР°С‡РµСЃС‚РІР° РєР»Р°СЃС‚РµСЂР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё С‚СЂРµС‚СЊРµР№ С‚СЂР°РЅР·Р°РєС†РёРё.
 
-            // Ожидаемое текущее качество кластера для двух транзакций.
+            // РћР¶РёРґР°РµРјРѕРµ С‚РµРєСѓС‰РµРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РґР»СЏ РґРІСѓС… С‚СЂР°РЅР·Р°РєС†РёР№.
             int transactionCountCurrentExpected = 2;
-            int sizeCurrentExpected = 21 * 2; // Первые две транзакции имеют одинаковое количество айтемов.
+            int sizeCurrentExpected = 21 * 2; // РџРµСЂРІС‹Рµ РґРІРµ С‚СЂР°РЅР·Р°РєС†РёРё РёРјРµСЋС‚ РѕРґРёРЅР°РєРѕРІРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р°Р№С‚РµРјРѕРІ.
             int widthCurrentExpected = 32;
             float qualityCurrentExpected = sizeCurrentExpected * transactionCountCurrentExpected / pow(widthCurrentExpected, 2.6f);
 
-            // Ожидаемое новое качество кластера после добавления третьей транзакции.
+            // РћР¶РёРґР°РµРјРѕРµ РЅРѕРІРѕРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїРѕСЃР»Рµ РґРѕР±Р°РІР»РµРЅРёСЏ С‚СЂРµС‚СЊРµР№ С‚СЂР°РЅР·Р°РєС†РёРё.
             int transactionCountNewExpected = 3;
-            int sizeNewExpected = 21 * 2 + 22; // Первые две транзакции имеют один пропущенный атрибут, поэтому у них айтемов меньше на 1.
+            int sizeNewExpected = 21 * 2 + 22; // РџРµСЂРІС‹Рµ РґРІРµ С‚СЂР°РЅР·Р°РєС†РёРё РёРјРµСЋС‚ РѕРґРёРЅ РїСЂРѕРїСѓС‰РµРЅРЅС‹Р№ Р°С‚СЂРёР±СѓС‚, РїРѕСЌС‚РѕРјСѓ Сѓ РЅРёС… Р°Р№С‚РµРјРѕРІ РјРµРЅСЊС€Рµ РЅР° 1.
             int widthNewExpected = 41;
             float qualityNewExpected = sizeNewExpected * transactionCountNewExpected / pow(widthNewExpected, 2.6f);
 
@@ -258,7 +258,7 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Cluster.h
-        // Удаление транзакции из непустого кластера. Кластер становится пустым.
+        // РЈРґР°Р»РµРЅРёРµ С‚СЂР°РЅР·Р°РєС†РёРё РёР· РЅРµРїСѓСЃС‚РѕРіРѕ РєР»Р°СЃС‚РµСЂР°. РљР»Р°СЃС‚РµСЂ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РїСѓСЃС‚С‹Рј.
         TEST_METHOD(Cluster_Remove_Empty)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -272,13 +272,13 @@ namespace CLOPEClusteringAlgorithmTest
             c.Remove(t, 2.6f);
             Assert::IsTrue(c.IsEmpty());
 
-            // Так же, как и в предыдущих тестах, косвенно убеждаемся, что качество кластера пересчитывается кооректно.
-            // Для этого пробуем оценить добавление этой же транзакции обратно в кластер.
+            // РўР°Рє Р¶Рµ, РєР°Рє Рё РІ РїСЂРµРґС‹РґСѓС‰РёС… С‚РµСЃС‚Р°С…, РєРѕСЃРІРµРЅРЅРѕ СѓР±РµР¶РґР°РµРјСЃСЏ, С‡С‚Рѕ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїРµСЂРµСЃС‡РёС‚С‹РІР°РµС‚СЃСЏ РєРѕРѕСЂРµРєС‚РЅРѕ.
+            // Р”Р»СЏ СЌС‚РѕРіРѕ РїСЂРѕР±СѓРµРј РѕС†РµРЅРёС‚СЊ РґРѕР±Р°РІР»РµРЅРёРµ СЌС‚РѕР№ Р¶Рµ С‚СЂР°РЅР·Р°РєС†РёРё РѕР±СЂР°С‚РЅРѕ РІ РєР»Р°СЃС‚РµСЂ.
 
-            // Ожидаемое текущее качество пустого кластера.
+            // РћР¶РёРґР°РµРјРѕРµ С‚РµРєСѓС‰РµРµ РєР°С‡РµСЃС‚РІРѕ РїСѓСЃС‚РѕРіРѕ РєР»Р°СЃС‚РµСЂР°.
             float qualityCurrentExpected = 0;
 
-            // Ожидаемое новое качество кластера после добавления транзакции.
+            // РћР¶РёРґР°РµРјРѕРµ РЅРѕРІРѕРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїРѕСЃР»Рµ РґРѕР±Р°РІР»РµРЅРёСЏ С‚СЂР°РЅР·Р°РєС†РёРё.
             int transactionCountNewExpected = 1;
             int sizeNewExpected = 21;
             int widthNewExpected = 21;
@@ -295,7 +295,7 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // Cluster.h
-        // Удаление транзакции из непустого кластера. Кластер остается непустым.
+        // РЈРґР°Р»РµРЅРёРµ С‚СЂР°РЅР·Р°РєС†РёРё РёР· РЅРµРїСѓСЃС‚РѕРіРѕ РєР»Р°СЃС‚РµСЂР°. РљР»Р°СЃС‚РµСЂ РѕСЃС‚Р°РµС‚СЃСЏ РЅРµРїСѓСЃС‚С‹Рј.
         TEST_METHOD(Cluster_Remove_NotEmpty)
         {
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
@@ -303,28 +303,28 @@ namespace CLOPEClusteringAlgorithmTest
             Transaction t;
             data.ReadNextTransaction(t);
 
-            // Добавляет первую транзакцию.
+            // Р”РѕР±Р°РІР»СЏРµС‚ РїРµСЂРІСѓСЋ С‚СЂР°РЅР·Р°РєС†РёСЋ.
             Cluster c;
             c.Add(t, 2.6f);
 
-            // Добавляет вторую транзакцию.
+            // Р”РѕР±Р°РІР»СЏРµС‚ РІС‚РѕСЂСѓСЋ С‚СЂР°РЅР·Р°РєС†РёСЋ.
             data.ReadNextTransaction(t);
             c.Add(t, 2.6f);
 
-            // Удаляет вторую транзакцию.
+            // РЈРґР°Р»СЏРµС‚ РІС‚РѕСЂСѓСЋ С‚СЂР°РЅР·Р°РєС†РёСЋ.
             c.Remove(t, 2.6f);
             Assert::IsTrue(!c.IsEmpty());
 
-            // Косвенно убеждаемся, что после удаления второй транзакции качество кластера пересчитывается корректно.
-            // Дельта качества является функцией текущего качества, поэтому если она корректная, то и качество корректное.
+            // РљРѕСЃРІРµРЅРЅРѕ СѓР±РµР¶РґР°РµРјСЃСЏ, С‡С‚Рѕ РїРѕСЃР»Рµ СѓРґР°Р»РµРЅРёСЏ РІС‚РѕСЂРѕР№ С‚СЂР°РЅР·Р°РєС†РёРё РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїРµСЂРµСЃС‡РёС‚С‹РІР°РµС‚СЃСЏ РєРѕСЂСЂРµРєС‚РЅРѕ.
+            // Р”РµР»СЊС‚Р° РєР°С‡РµСЃС‚РІР° СЏРІР»СЏРµС‚СЃСЏ С„СѓРЅРєС†РёРµР№ С‚РµРєСѓС‰РµРіРѕ РєР°С‡РµСЃС‚РІР°, РїРѕСЌС‚РѕРјСѓ РµСЃР»Рё РѕРЅР° РєРѕСЂСЂРµРєС‚РЅР°СЏ, С‚Рѕ Рё РєР°С‡РµСЃС‚РІРѕ РєРѕСЂСЂРµРєС‚РЅРѕРµ.
 
-            // Ожидаемое текущее качество кластера для для одной оставшейся транзакции.
+            // РћР¶РёРґР°РµРјРѕРµ С‚РµРєСѓС‰РµРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РґР»СЏ РґР»СЏ РѕРґРЅРѕР№ РѕСЃС‚Р°РІС€РµР№СЃСЏ С‚СЂР°РЅР·Р°РєС†РёРё.
             int transactionCountCurrentExpected = 1;
             int sizeCurrentExpected = 21;
             int widthCurrentExpected = 21;
             float qualityCurrentExpected = sizeCurrentExpected * transactionCountCurrentExpected / pow(widthCurrentExpected, 2.6f);
 
-            // Ожидаемое новое качество кластера после возвращения второй транзакции обратно в кластер.
+            // РћР¶РёРґР°РµРјРѕРµ РЅРѕРІРѕРµ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР° РїРѕСЃР»Рµ РІРѕР·РІСЂР°С‰РµРЅРёСЏ РІС‚РѕСЂРѕР№ С‚СЂР°РЅР·Р°РєС†РёРё РѕР±СЂР°С‚РЅРѕ РІ РєР»Р°СЃС‚РµСЂ.
             int transactionCountNewExpected = 2;
             int sizeNewExpected = 21 * 2;
             int widthNewExpected = 32;
@@ -341,17 +341,17 @@ namespace CLOPEClusteringAlgorithmTest
 
         //
         // CLOPEClusteringAlgorithm.h
-        // Ожидаемые параметры получены ручной кластеризацией с параметром 2.6.
+        // РћР¶РёРґР°РµРјС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ РїРѕР»СѓС‡РµРЅС‹ СЂСѓС‡РЅРѕР№ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРµР№ СЃ РїР°СЂР°РјРµС‚СЂРѕРј 2.6.
         TEST_METHOD(CLOPEAlgorithm_Apply) {
             int iterationCountExpected = 3;
-            int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
+            int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // РРЅРґРµРєСЃ - РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё РІ С„Р°Р№Р»Рµ РґР°С‚Р°СЃРµС‚Р°. Р§РёСЃР»Рѕ - РЅРѕРјРµСЂ РєР»Р°СЃС‚РµСЂР°.
 
             Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
             unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, 2.6f);
             data.Close();
             Assert::IsTrue(iterationCount == iterationCountExpected);
 
-            // Проверяет выходной файл после кластеризации.
+            // РџСЂРѕРІРµСЂСЏРµС‚ РІС‹С…РѕРґРЅРѕР№ С„Р°Р№Р» РїРѕСЃР»Рµ РєР»Р°СЃС‚РµСЂРёР·Р°С†РёРё.
             std::fstream resultFile;
             resultFile.open("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
             if (resultFile.fail())

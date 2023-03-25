@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 
 #include "Dataset.h"
 #include "CLOPEClusteringAlgorithm.h"
@@ -10,5 +10,5 @@ int main()
     Dataset data("./Data/agaricus-lepiota.data");
     unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, REPULSION);
     std::cout << "Iterations: " << iterationCount << std::endl;
-    data.Close();   // Ðåçóëüòàò - â ôàéëå dataset_copy.txt.
+    data.Close();   // Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ - Ð² Ñ„Ð°Ð¹Ð»Ðµ dataset_copy.txt.
 }
