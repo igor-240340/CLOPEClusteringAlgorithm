@@ -3,9 +3,6 @@
 
 #include "Dataset.h"
 
-Dataset::Dataset() {
-}
-
 //
 // Создает копию оригинального датасета и проставляет значенияем атрибутов уникальные номера.
 // Открывает копию датасета на чтение, а временный файл - на запись.
@@ -139,14 +136,6 @@ void Dataset::Reopen() {
 
     fileIn.open(copyFilePath);
     fileOut.open(tmpCopyFilePath);
-    if (fileIn.fail() || fileOut.fail())
-        exit(1);
-}
-
-void Dataset::OpenFile(std::string fileName, std::string postfix) {
-    fileIn.open(fileName);
-    fileOut.open(postfix);
-
     if (fileIn.fail() || fileOut.fail())
         exit(1);
 }
