@@ -96,8 +96,6 @@ bool Dataset::ReadNextTransaction(Transaction& t) {
     std::string line;
     fileIn >> line;
 
-    t.sourceString = line;
-
     if (line == "")
         return false;
 

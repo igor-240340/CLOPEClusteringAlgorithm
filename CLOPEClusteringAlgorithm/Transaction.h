@@ -3,12 +3,8 @@
 #include <iostream> 
 #include <list> 
 
-class Transaction
+struct Transaction
 {
-public:
-    unsigned int clusterId;
-
+    unsigned short clusterId;
     std::list<std::string> items;
-
-    std::string sourceString;
 };
