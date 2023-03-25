@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <fstream>
 #include <filesystem>
@@ -26,5 +26,5 @@ private:
     std::filesystem::path copyFilePath;
     std::filesystem::path tmpCopyFilePath;
 
-    void Reformat(); // Присваивает уникальные номера значениям атрибутов.
+    void Reformat(); // РџСЂРёСЃРІР°РёРІР°РµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Рµ РЅРѕРјРµСЂР° Р·РЅР°С‡РµРЅРёСЏРј Р°С‚СЂРёР±СѓС‚РѕРІ.
 };

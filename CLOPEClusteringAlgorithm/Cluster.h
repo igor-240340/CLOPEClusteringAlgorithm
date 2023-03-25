@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include <unordered_map>
 
@@ -9,13 +9,13 @@ class Cluster
 public:
     Cluster();
 
-    float CalcDeltaQuality(Transaction& t, float repulsion);   // Оценивает изменение качества кластера при добавлении транзакции.
+    float CalcDeltaQuality(Transaction& t, float repulsion);   // РћС†РµРЅРёРІР°РµС‚ РёР·РјРµРЅРµРЅРёРµ РєР°С‡РµСЃС‚РІР° РєР»Р°СЃС‚РµСЂР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё С‚СЂР°РЅР·Р°РєС†РёРё.
     void Add(Transaction& t, float repulsion);
     void Remove(Transaction& t, float repulsion);
 
     bool IsEmpty() { return isEmpty; };
 
-    // Для list.remove().
+    // Р”Р»СЏ list.remove().
     bool operator == (const Cluster& c) const { return id == c.id; }
     bool operator != (const Cluster& c) const { return !operator==(c); }
 
@@ -26,9 +26,9 @@ private:
 
     bool isEmpty = true;
 
-    // Определяют качество кластера: (size / width^repulsion) * transactionCount.
+    // РћРїСЂРµРґРµР»СЏСЋС‚ РєР°С‡РµСЃС‚РІРѕ РєР»Р°СЃС‚РµСЂР°: (size / width^repulsion) * transactionCount.
     int transactionCount = 0;
-    int size = 0;                                           // Количество всех item (сумма айтемов по всем транзакциям кластера).
-    std::unordered_map<std::string, int> itemToOccurence;   // Количество элементов определяет ширину кластера.
+    int size = 0;                                           // РљРѕР»РёС‡РµСЃС‚РІРѕ РІСЃРµС… item (СЃСѓРјРјР° Р°Р№С‚РµРјРѕРІ РїРѕ РІСЃРµРј С‚СЂР°РЅР·Р°РєС†РёСЏРј РєР»Р°СЃС‚РµСЂР°).
+    std::unordered_map<std::string, int> itemToOccurence;   // РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РѕРїСЂРµРґРµР»СЏРµС‚ С€РёСЂРёРЅСѓ РєР»Р°СЃС‚РµСЂР°.
     float quality = 0.0f;
 };
