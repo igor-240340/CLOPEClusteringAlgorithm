@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33214.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CLOPEClusteringAlgorithm", "CLOPEClusteringAlgorithm\CLOPEClusteringAlgorithm.vcxproj", "{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CLOPEClusteringAlgorithmTest", "CLOPEClusteringAlgorithmTest\CLOPEClusteringAlgorithmTest.vcxproj", "{47393269-0675-4231-BC2F-D731368942F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Debug|x64.ActiveCfg = Debug|x64
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Debug|x64.Build.0 = Debug|x64
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Debug|x86.ActiveCfg = Debug|Win32
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Debug|x86.Build.0 = Debug|Win32
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Release|x64.ActiveCfg = Release|x64
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Release|x64.Build.0 = Release|x64
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Release|x86.ActiveCfg = Release|Win32
+		{2C99FDB6-4AB3-48AE-987B-F4C9F3E6197E}.Release|x86.Build.0 = Release|Win32
+		{47393269-0675-4231-BC2F-D731368942F1}.Debug|x64.ActiveCfg = Debug|x64
+		{47393269-0675-4231-BC2F-D731368942F1}.Debug|x64.Build.0 = Debug|x64
+		{47393269-0675-4231-BC2F-D731368942F1}.Debug|x86.ActiveCfg = Debug|Win32
+		{47393269-0675-4231-BC2F-D731368942F1}.Debug|x86.Build.0 = Debug|Win32
+		{47393269-0675-4231-BC2F-D731368942F1}.Release|x64.ActiveCfg = Release|x64
+		{47393269-0675-4231-BC2F-D731368942F1}.Release|x64.Build.0 = Release|x64
+		{47393269-0675-4231-BC2F-D731368942F1}.Release|x86.ActiveCfg = Release|Win32
+		{47393269-0675-4231-BC2F-D731368942F1}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {279E4A58-9A19-433A-93A4-C3B1B6E69A74}
+	EndGlobalSection
+EndGlobal

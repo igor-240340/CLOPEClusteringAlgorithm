@@ -1,0 +1,10 @@
+﻿e,f,s,w,f,n,f,w,b,p,t,e,s,f,w,w,p,w,o,e,k,a,g
+p,x,s,w,t,p,f,c,n,k,e,e,s,s,w,w,p,w,o,p,n,s,u
+e,x,y,y,t,l,f,c,b,p,e,r,s,y,w,w,p,w,o,p,k,s,g
+e,b,s,w,t,l,f,c,b,g,e,c,s,s,w,w,p,w,o,p,k,s,g
+e,f,f,g,f,n,f,w,b,p,t,e,s,s,w,w,p,w,o,e,k,a,g
+e,b,y,w,t,l,f,c,b,g,e,c,s,s,w,w,p,w,o,p,k,s,g
+e,b,s,y,t,a,f,c,b,n,e,c,s,s,w,w,p,w,o,p,n,n,m
+e,s,f,g,f,n,f,c,n,n,e,e,s,s,w,w,p,w,o,p,n,y,u
+e,f,y,y,t,l,f,c,b,p,e,r,s,y,w,w,p,w,o,p,k,s,g
+e,b,s,w,t,l,f,c,b,w,e,c,s,s,w,w,p,w,o,p,n,n,g
