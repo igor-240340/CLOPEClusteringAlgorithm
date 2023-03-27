@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 
-#include "MushroomDataset.h"
 #include "CLOPEClusteringAlgorithm.h"
+#include "MushroomDataset.h"
 
 static const float REPULSION = 2.6f;
 

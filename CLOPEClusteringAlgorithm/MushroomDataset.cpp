@@ -1,4 +1,4 @@
-#include <sstream>
+п»ї#include <sstream>
 
 #include "MushroomDataset.h"
 
@@ -12,7 +12,7 @@ MushroomDataset::MushroomDataset(std::string filePath) : Dataset(filePath) {
 }
 
 //
-// Проставляет уникальные номера значениям атрибутов транзакции.
+// РџСЂРѕСЃС‚Р°РІР»СЏРµС‚ СѓРЅРёРєР°Р»СЊРЅС‹Рµ РЅРѕРјРµСЂР° Р·РЅР°С‡РµРЅРёСЏРј Р°С‚СЂРёР±СѓС‚РѕРІ С‚СЂР°РЅР·Р°РєС†РёРё.
 //
 void MushroomDataset::Reformat() {
     do {
@@ -26,17 +26,17 @@ void MushroomDataset::Reformat() {
         int attributeIndex = 0;
         std::string reformattedLine;
         std::string itemValue;
-        std::getline(ss, itemValue, ','); // Пропускает первый символ, который обозначет признак poisonos/edible, который не является значением атрибута в дадасете грибов.
+        std::getline(ss, itemValue, ','); // РџСЂРѕРїСѓСЃРєР°РµС‚ РїРµСЂРІС‹Р№ СЃРёРјРІРѕР», РєРѕС‚РѕСЂС‹Р№ РѕР±РѕР·РЅР°С‡РµС‚ РїСЂРёР·РЅР°Рє poisonos/edible, РєРѕС‚РѕСЂС‹Р№ РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµРј Р°С‚СЂРёР±СѓС‚Р° РІ РґР°РґР°СЃРµС‚Рµ РіСЂРёР±РѕРІ.
         while (ss.good()) {
             std::getline(ss, itemValue, ',');
 
-            // Пропускаем неопределенное значение атрибута.
+            // РџСЂРѕРїСѓСЃРєР°РµРј РЅРµРѕРїСЂРµРґРµР»РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Р°С‚СЂРёР±СѓС‚Р°.
             if (itemValue != "?")
                 reformattedLine += itemValue + std::to_string(attributeIndex) + ",";
 
             attributeIndex++;
         }
-        reformattedLine.pop_back(); // Удаляет последнюю запятую.
+        reformattedLine.pop_back(); // РЈРґР°Р»СЏРµС‚ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РїСЏС‚СѓСЋ.
 
         fileOut << reformattedLine << std::endl;
     } while (true);
