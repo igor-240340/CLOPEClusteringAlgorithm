@@ -34,24 +34,27 @@ namespace CLOPEClusteringAlgorithmTest
         }
 
         //
-        // Dataset.h
+        // MushroomDataset.h
         //
-        TEST_METHOD(Dataset_Constructor)
+        TEST_METHOD(MushroomDataset_Constructor)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt"));
+            Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy_tmp.txt"));
 
             data.Close();
+
+            // Файл dataset_copy_res.txt после работы всегда остается в файловой системе, поэтому в тестах его удаляем.
             std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
-        // Dataset.h
+        // MushroomDataset.h
         // Чтение на фазе инициализации.
-        TEST_METHOD(Dataset_ReadNextTransaction_WithoutClusterId)
+        TEST_METHOD(MushroomDataset_ReadNextTransaction_WithoutClusterId)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t1;
             Assert::IsTrue(data.ReadNextTransaction(t1));
@@ -78,15 +81,16 @@ namespace CLOPEClusteringAlgorithmTest
             Assert::IsFalse(data.ReadNextTransaction(t4));
 
             data.Close();
+
             std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
-        // Dataset.h
+        // MushroomDataset.h
         // Повторное чтение после кластеризации транзакций.
-        TEST_METHOD(Dataset_WriteTransaction)
+        TEST_METHOD(MushroomDataset_WriteTransaction)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -118,6 +122,7 @@ namespace CLOPEClusteringAlgorithmTest
             Assert::IsTrue(t.clusterId == 2);
 
             data.Close();
+
             std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
@@ -139,7 +144,7 @@ namespace CLOPEClusteringAlgorithmTest
         // Оценка дельты качества пустого кластера при добавлении транзакции.
         TEST_METHOD(Cluster_CalcDeltaQuality_Empty)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -158,7 +163,7 @@ namespace CLOPEClusteringAlgorithmTest
         // Добавление транзакции в пустой кластер.
         TEST_METHOD(Cluster_Add_Empty)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -180,7 +185,7 @@ namespace CLOPEClusteringAlgorithmTest
         // прямой доступ к которому у нас закрыт.
         TEST_METHOD(Cluster_CalcDeltaQuality_NotEmpty)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -215,7 +220,7 @@ namespace CLOPEClusteringAlgorithmTest
         // Добавление транзакции в непустой кластер.
         TEST_METHOD(Cluster_Add_NotEmpty)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -261,7 +266,7 @@ namespace CLOPEClusteringAlgorithmTest
         // Удаление транзакции из непустого кластера. Кластер становится пустым.
         TEST_METHOD(Cluster_Remove_Empty)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -298,7 +303,7 @@ namespace CLOPEClusteringAlgorithmTest
         // Удаление транзакции из непустого кластера. Кластер остается непустым.
         TEST_METHOD(Cluster_Remove_NotEmpty)
         {
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
             Transaction t;
             data.ReadNextTransaction(t);
@@ -346,7 +351,7 @@ namespace CLOPEClusteringAlgorithmTest
             int iterationCountExpected = 3;
             int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
 
-            Dataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
+            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
             unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, 2.6f);
             data.Close();
             Assert::IsTrue(iterationCount == iterationCountExpected);

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iostream> 
-#include <list> 
+#include <string>
+#include <list>
 
 struct Transaction
 {

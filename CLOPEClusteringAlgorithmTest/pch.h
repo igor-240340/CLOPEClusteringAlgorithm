@@ -3,7 +3,7 @@
 
 #include <filesystem>
 
-#include "Dataset.h"
+#include "MushroomDataset.h"
 #include "Cluster.h"
 #include "CLOPEClusteringAlgorithm.h"
 

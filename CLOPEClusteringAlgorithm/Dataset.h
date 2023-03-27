@@ -8,7 +8,7 @@
 class Dataset
 {
 public:
-    Dataset(std::string fileName);
+    Dataset(std::string filePath);
     ~Dataset();
 
     void Reopen();
@@ -17,12 +17,15 @@ public:
     bool ReadNextTransaction(Transaction& t);
     void WriteTransaction(Transaction& t);
 
+protected:
+    void Open();
+
+    std::fstream fileIn;    // Копия оригинального файла.
+    std::ofstream fileOut;  // Временный выходной файл с результатом.
+
 private:
-    std::fstream fileIn;
-    std::ofstream fileOut;
+    std::filesystem::path fileInPath;
+    std::filesystem::path fileOutPath;
 
-    std::filesystem::path copyFilePath;
-    std::filesystem::path tmpCopyFilePath;
-
-    void Reformat(); // Присваивает уникальные номера значениям атрибутов.
+    virtual void Reformat() = 0; // Приводит конкретный файл датасета к унифицированному формату.
 };
