@@ -37,10 +37,11 @@ namespace CLOPEClusteringAlgorithmTest
         {
             Logger::WriteMessage("In MethodCleanup");
 
-            // Файл dataset_copy.txt после работы всегда остается в файловой системе.
+            // Файл copy_<datasetname> после работы всегда остается в файловой системе.
             // Закрытие файлов происходит в деструкторе, поэтому подчищаем за датасетом уже в этом методе,
             // когда для объекта вызван деструктор и файлы закрыты.
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
+            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset2.txt"); // Для тестов датасета.
+            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset.txt"); // Для теста всей кластеризации.
         }
 
         TEST_CLASS_CLEANUP(ClassCleanup)
@@ -58,12 +59,12 @@ namespace CLOPEClusteringAlgorithmTest
             {
                 MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
-                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt"));
-                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy_tmp.txt"));
+                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset2.txt"));
+                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/tmp_copy_fake_dataset2.txt"));
             }
 
-            Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt"));
-            Assert::IsFalse(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy_tmp.txt"));
+            Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset2.txt"));
+            Assert::IsFalse(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/tmp_copy_fake_dataset2.txt"));
         }
 
         //
@@ -352,7 +353,7 @@ namespace CLOPEClusteringAlgorithmTest
 
             // Проверяет выходной файл после кластеризации.
             std::fstream resultFile;
-            resultFile.open("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
+            resultFile.open("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset.txt");
             if (resultFile.fail())
                 exit(1);
 

@@ -8,10 +8,11 @@
 // Открывает копию на чтение, а временный файл - на запись.
 //
 Dataset::Dataset(std::string filePath) {
-    fileInPath = std::filesystem::path(filePath).replace_filename("dataset_copy.txt");
+    std::string origFileName = std::filesystem::path(filePath).filename().string();
+    fileInPath = std::filesystem::path(filePath).replace_filename("copy_" + origFileName);
     std::filesystem::copy(filePath, fileInPath);
 
-    fileOutPath = std::filesystem::path(fileInPath).replace_filename("dataset_copy_tmp.txt");
+    fileOutPath = std::filesystem::path(filePath).replace_filename("tmp_copy_" + origFileName);
 }
 
 //
