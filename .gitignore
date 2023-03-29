@@ -2,5 +2,6 @@
 Release/
 Debug/
 
-dataset_copy.txt
-dataset_copy_tmp.txt
+tmp_copy_*
+copy_*
+
