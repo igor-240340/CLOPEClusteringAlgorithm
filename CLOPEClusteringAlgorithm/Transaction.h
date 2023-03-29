@@ -5,6 +5,6 @@
 
 struct Transaction
 {
-    unsigned short clusterId;
+    unsigned int clusterId;
     std::list<std::string> items;
 };
