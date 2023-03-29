@@ -18,7 +18,7 @@ unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float rep
 
         // Переоткрываем выходной файл с предыдущей итерации как входной.
         if (!initPhase) {
-            dataset.Reopen();
+            dataset.Rewind();
         }
 
         Transaction transac;

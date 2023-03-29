@@ -7,14 +7,14 @@
 //
 MushroomDataset::MushroomDataset(std::string filePath) : Dataset(filePath) {
     Open();
-    Reformat();
-    Reopen();
+    PreProcess();
+    Rewind();
 }
 
 //
 // Проставляет уникальные номера значениям атрибутов транзакции.
 //
-void MushroomDataset::Reformat() {
+void MushroomDataset::PreProcess() {
     do {
         std::string srcLine;
         fileIn >> srcLine;

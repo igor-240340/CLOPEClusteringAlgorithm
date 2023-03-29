@@ -10,5 +10,4 @@ int main()
     MushroomDataset data("./Data/agaricus-lepiota.data");
     unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, REPULSION);
     std::cout << "Iterations: " << iterationCount << std::endl;
-    data.Close();   // Результат - в файле dataset_copy.txt.
 }

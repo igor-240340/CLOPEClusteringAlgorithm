@@ -28,9 +28,24 @@ namespace CLOPEClusteringAlgorithmTest
             Logger::WriteMessage("In Class Initialize");
         }
 
+        TEST_METHOD_INITIALIZE(MethodInitialize)
+        {
+            Logger::WriteMessage("In MethodInitialize");
+        }
+
+        TEST_METHOD_CLEANUP(MethodCleanup)
+        {
+            Logger::WriteMessage("In MethodCleanup");
+
+            // Файл dataset_copy.txt после работы всегда остается в файловой системе.
+            // Закрытие файлов происходит в деструкторе, поэтому подчищаем за датасетом уже в этом методе,
+            // когда для объекта вызван деструктор и файлы закрыты.
+            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
+        }
+
         TEST_CLASS_CLEANUP(ClassCleanup)
         {
-            Logger::WriteMessage("In Class Cleanup");
+            Logger::WriteMessage("In ClassCleanup");
         }
 
         //
@@ -38,15 +53,17 @@ namespace CLOPEClusteringAlgorithmTest
         //
         TEST_METHOD(MushroomDataset_Constructor)
         {
-            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+            // Здесь мы проверяем в т.ч. и работу деструктора, поэтому создаем scope.
+            // Закрытие файлов и удаление временного файла происходит в деструкторе.
+            {
+                MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
+
+                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt"));
+                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy_tmp.txt"));
+            }
 
             Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt"));
-            Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy_tmp.txt"));
-
-            data.Close();
-
-            // Файл dataset_copy_res.txt после работы всегда остается в файловой системе, поэтому в тестах его удаляем.
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
+            Assert::IsFalse(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy_tmp.txt"));
         }
 
         //
@@ -79,10 +96,6 @@ namespace CLOPEClusteringAlgorithmTest
 
             Transaction t4;
             Assert::IsFalse(data.ReadNextTransaction(t4));
-
-            data.Close();
-
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -101,7 +114,7 @@ namespace CLOPEClusteringAlgorithmTest
             t.clusterId = 2;
             data.WriteTransaction(t);
 
-            data.Reopen();
+            data.Rewind();
 
             data.ReadNextTransaction(t);
             std::string expectedItems1 = "x0,y1,b2,t3,n4,f5,c6,b7,e8,e9,s11,s12,e13,w14,p15,w16,t17,e18,w19,c20,w21";
@@ -120,10 +133,6 @@ namespace CLOPEClusteringAlgorithmTest
             actualItems2.pop_back();
             Assert::AreEqual(expectedItems2, actualItems2);
             Assert::IsTrue(t.clusterId == 2);
-
-            data.Close();
-
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -153,9 +162,6 @@ namespace CLOPEClusteringAlgorithmTest
             float deltaQualityActual = c.CalcDeltaQuality(t, 2.6f);
             float deltaQualityExpected = t.items.size() / pow(t.items.size(), 2.6f);
             Assert::AreEqual(deltaQualityExpected, deltaQualityActual);
-
-            data.Close();
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -172,9 +178,6 @@ namespace CLOPEClusteringAlgorithmTest
             c.Add(t, 2.6f);
             Assert::IsTrue(!c.IsEmpty());
             Assert::IsTrue(t.clusterId == c.id);
-
-            data.Close();
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -210,9 +213,6 @@ namespace CLOPEClusteringAlgorithmTest
 
             float deltaQualityExpected = qualityNewExpected - qualityCurrentExpected;
             Assert::AreEqual(deltaQualityExpected, deltaQualityActual);
-
-            data.Close();
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -256,9 +256,6 @@ namespace CLOPEClusteringAlgorithmTest
             data.ReadNextTransaction(t);
             float dQualityActual = c.CalcDeltaQuality(t, 2.6f);
             Assert::AreEqual(dQualityExpected, dQualityActual);
-
-            data.Close();
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -293,9 +290,6 @@ namespace CLOPEClusteringAlgorithmTest
 
             float dQualityActual = c.CalcDeltaQuality(t, 2.6f);
             Assert::AreEqual(dQualityExpected, dQualityActual);
-
-            data.Close();
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -339,9 +333,6 @@ namespace CLOPEClusteringAlgorithmTest
 
             float dQualityActual = c.CalcDeltaQuality(t, 2.6f);
             Assert::AreEqual(dQualityExpected, dQualityActual);
-
-            data.Close();
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
 
         //
@@ -351,10 +342,13 @@ namespace CLOPEClusteringAlgorithmTest
             int iterationCountExpected = 3;
             int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
 
-            MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
-            unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, 2.6f);
-            data.Close();
-            Assert::IsTrue(iterationCount == iterationCountExpected);
+            // Нам необходимо заглянуть в выходной файл и проверить результаты, а закрытие происходит в деструкторе,
+            // Поэтому создаем scope, чтобы спровоцировать вызов деструктора, а значит и закрытие обоих и удаление временного файла.
+            {
+                MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
+                unsigned int iterationCount = CLOPEClusteringAlgorithm::Apply(data, 2.6f);
+                Assert::IsTrue(iterationCount == iterationCountExpected);
+            }
 
             // Проверяет выходной файл после кластеризации.
             std::fstream resultFile;
@@ -382,8 +376,6 @@ namespace CLOPEClusteringAlgorithmTest
                 }
             } while (true);
             resultFile.close();
-
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
     };
 }
