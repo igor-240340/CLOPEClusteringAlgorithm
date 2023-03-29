@@ -144,7 +144,9 @@
     <ClInclude Include="Cluster.h" />
     <ClInclude Include="Dataset.h" />
     <ClInclude Include="MushroomDataset.h" />
+    <ClInclude Include="BookDataset.h" />
     <ClInclude Include="Transaction.h" />
+    <ClInclude Include="WordDataset.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CLOPEClusteringAlgorithm.cpp" />
@@ -152,6 +154,8 @@
     <ClCompile Include="Dataset.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MushroomDataset.cpp" />
+    <ClCompile Include="BookDataset.cpp" />
+    <ClCompile Include="WordDataset.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

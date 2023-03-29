@@ -385,5 +385,21 @@ namespace CLOPEClusteringAlgorithmTest
 
             std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/dataset_copy.txt");
         }
+
+        //
+        // Кластеризация книжек.
+        TEST_METHOD(CLOPEAlgorithm_Apply_MyBookDataset) {
+            try {
+                Logger::WriteMessage(currentPath.c_str());
+
+                BookDataset data("../CLOPEClusteringAlgorithm/Data/my-books-clean.txt");
+                unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, 1.1f);
+                data.PostProcess();
+                data.Close();
+            }
+            catch (const std::exception& e) {
+                Logger::WriteMessage(e.what());
+            }
+        }
     };
 }

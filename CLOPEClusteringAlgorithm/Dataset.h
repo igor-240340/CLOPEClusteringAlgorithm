@@ -20,12 +20,15 @@ public:
 protected:
     void Open();
 
-    std::fstream fileIn;    // Копия оригинального файла.
+    std::filesystem::path fileInPath;
+    std::filesystem::path fileOutPath;
+
+    std::ifstream fileIn;   // Копия оригинального файла.
     std::ofstream fileOut;  // Временный выходной файл с результатом.
 
 private:
-    std::filesystem::path fileInPath;
-    std::filesystem::path fileOutPath;
+    /*std::filesystem::path fileInPath;
+    std::filesystem::path fileOutPath;*/
 
     virtual void Reformat() = 0; // Приводит конкретный файл датасета к унифицированному формату.
 };

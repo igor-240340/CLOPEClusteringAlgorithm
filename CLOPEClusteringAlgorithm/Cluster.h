@@ -9,9 +9,9 @@ class Cluster
 public:
     Cluster();
 
-    float CalcDeltaQuality(Transaction& t, float repulsion);   // Оценивает изменение качества кластера при добавлении транзакции.
-    void Add(Transaction& t, float repulsion);
-    void Remove(Transaction& t, float repulsion);
+    double CalcDeltaQuality(Transaction& t, double repulsion);   // Оценивает изменение качества кластера при добавлении транзакции.
+    void Add(Transaction& t, double repulsion);
+    void Remove(Transaction& t, double repulsion);
 
     bool IsEmpty() { return isEmpty; };
 
@@ -30,5 +30,5 @@ private:
     int transactionCount = 0;
     int size = 0;                                           // Количество всех item (сумма айтемов по всем транзакциям кластера).
     std::unordered_map<std::string, int> itemToOccurence;   // Количество элементов определяет ширину кластера.
-    float quality = 0.0f;
+    double quality = 0.0f;
 };

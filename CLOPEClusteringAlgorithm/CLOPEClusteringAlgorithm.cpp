@@ -5,14 +5,17 @@
 //
 // Применяет кластеризацию к датасету dataset с параметром repulsion.
 //
-unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float repulsion) {
-    std::unordered_map<int, Cluster*> idToCluster;
+unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const double repulsion) {
+    std::unordered_map<unsigned int, Cluster*> idToCluster;
     Cluster emptyCluster;
     std::list<Cluster> clusters = { emptyCluster }; // Пустой кластер - для оценки прироста целевой функции при добавлении транзакции в новый кластер.
 
     unsigned short iterationCount = 0;
     bool thereWasMove; // Признак того, что хотя бы одна транзакция была перемещена между кластерами во время итерации.
     do {
+        if (iterationCount == 2000)
+            break;
+
         thereWasMove = false;
         bool initPhase = iterationCount == 0;   // На фазе инициализации добавление в любой кластер считается перемещением транзакции и thereWasMove устанавливается в true.
 
@@ -25,7 +28,7 @@ unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float rep
         while (dataset.ReadNextTransaction(transac)) {
             // Удаляем транзакцию из её текущего кластера.
             // Если кластер стал пустым, то удаляем и сам кластер.
-            int prevClusterId;
+            unsigned int prevClusterId;
             bool prevClusterWasEmpty;
             if (!initPhase) {
                 Cluster& prevCluster = *(idToCluster[transac.clusterId]);
@@ -82,11 +85,11 @@ unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float rep
 //
 // Ищет кластер, добавление в который даёт максимальный прирост качества кластера (а значит и максимальный прирост целевой функции).
 //
-Cluster* CLOPEClusteringAlgorithm::FindMaxCluster(std::list<Cluster>& clusters, Transaction& transaction, const float repulsion) {
+Cluster* CLOPEClusteringAlgorithm::FindMaxCluster(std::list<Cluster>& clusters, Transaction& transaction, const double repulsion) {
     Cluster* maxCluster = nullptr;
-    float deltaQualityMax = 0;
+    double deltaQualityMax = 0;
     for (Cluster& cluster : clusters) {
-        float deltaQuality = cluster.CalcDeltaQuality(transaction, repulsion);
+        double deltaQuality = cluster.CalcDeltaQuality(transaction, repulsion);
 
         if (deltaQuality > deltaQualityMax) {
             deltaQualityMax = deltaQuality;

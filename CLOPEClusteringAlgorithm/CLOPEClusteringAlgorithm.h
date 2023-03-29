@@ -9,8 +9,8 @@
 class CLOPEClusteringAlgorithm
 {
 public:
-    static unsigned short Apply(Dataset& dataset, const float repulsion);
+    static unsigned short Apply(Dataset& dataset, const double repulsion);
 
 private:
-    static Cluster* FindMaxCluster(std::list<Cluster>& clusters, Transaction& transaction, const float repulsion);
+    static Cluster* FindMaxCluster(std::list<Cluster>& clusters, Transaction& transaction, const double repulsion);
 };

@@ -12,7 +12,7 @@ Cluster::Cluster() {
 //
 // Оценивает новое состояние кластера в случае добавления транзакции и возвращает дельту.
 //
-float Cluster::CalcDeltaQuality(Transaction& t, float repulsion) {
+double Cluster::CalcDeltaQuality(Transaction& t, double repulsion) {
     int newSize = size + t.items.size();
     int newWidth = itemToOccurence.size();
 
@@ -23,14 +23,14 @@ float Cluster::CalcDeltaQuality(Transaction& t, float repulsion) {
         }
     }
 
-    float newQuality = newSize * (transactionCount + 1) / pow(newWidth, repulsion);
+    double newQuality = newSize * (transactionCount + 1) / pow(newWidth, repulsion);
     return newQuality - quality;
 }
 
 //
 // Проставляет транзакции идентификатор кластера и пересчитывает параметры кластера.
 //
-void Cluster::Add(Transaction& t, float repulsion) {
+void Cluster::Add(Transaction& t, double repulsion) {
     t.clusterId = id;
 
     isEmpty = false;
@@ -49,7 +49,7 @@ void Cluster::Add(Transaction& t, float repulsion) {
 //
 // Пересчитывает параметры кластера с учетом, что транзакция в нём больше не находится.
 //
-void Cluster::Remove(Transaction& t, float repulsion) {
+void Cluster::Remove(Transaction& t, double repulsion) {
     size = size - t.items.size();
     isEmpty = --transactionCount == 0;
 
