@@ -8,6 +8,6 @@ static const float REPULSION = 2.6f;
 int main()
 {
     MushroomDataset data("./Data/agaricus-lepiota.data");
-    unsigned short iterationCount = CLOPEClusteringAlgorithm::Apply(data, REPULSION);
+    unsigned short iterationCount = CLOPEClusteringAlgorithm::Perform(data, REPULSION);
     std::cout << "Iterations: " << iterationCount << std::endl;
 }

@@ -5,12 +5,16 @@
 //
 // Применяет кластеризацию к датасету dataset с параметром repulsion.
 //
-unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float repulsion) {
+unsigned short CLOPEClusteringAlgorithm::Perform(Dataset& dataset, const float repulsion, const unsigned short iterationsMax) {
     std::unordered_map<unsigned int, Cluster*> idToCluster;
     std::list<Cluster> clusters = { Cluster() }; // Пустой кластер - для оценки прироста целевой функции при добавлении транзакции в новый кластер.
     unsigned short iterationCount = 0;
     bool thereWasMove; // Признак того, что хотя бы одна транзакция была перемещена между кластерами во время итерации.
     do {
+        if (iterationCount == iterationsMax) {
+            break;
+        }
+
         thereWasMove = false;
         bool initPhase = iterationCount == 0;   // На фазе инициализации добавление в любой кластер считается перемещением транзакции и thereWasMove устанавливается в true.
 

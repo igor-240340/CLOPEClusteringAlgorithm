@@ -355,7 +355,7 @@ namespace CLOPEClusteringAlgorithmTest
             // Поэтому создаем scope, чтобы спровоцировать вызов деструктора, а значит и закрытие обоих и удаление временного файла.
             {
                 MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset.txt");
-                unsigned int iterationCount = CLOPEClusteringAlgorithm::Apply(data, 2.6f);
+                unsigned int iterationCount = CLOPEClusteringAlgorithm::Perform(data, 2.6f);
                 Assert::IsTrue(iterationCount == iterationCountExpected);
             }
 
