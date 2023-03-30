@@ -6,9 +6,8 @@
 //
 //
 MushroomDataset::MushroomDataset(std::string filePath) : Dataset(filePath) {
-    Open();
     PreProcess();
-    Rewind();
+    Reopen();
 }
 
 //
@@ -26,7 +25,7 @@ void MushroomDataset::PreProcess() {
         int attributeIndex = 0;
         std::string reformattedLine;
         std::string itemValue;
-        std::getline(ss, itemValue, ','); // Пропускает первый символ, который обозначет признак poisonos/edible, который не является значением атрибута в дадасете грибов.
+        std::getline(ss, itemValue, ','); // Пропускает первый символ, который обозначет признак poisonos/edible, который не является значением атрибута в датасете грибов.
         while (ss.good()) {
             std::getline(ss, itemValue, ',');
 
@@ -40,4 +39,32 @@ void MushroomDataset::PreProcess() {
 
         fileOut << reformattedLine << std::endl;
     } while (true);
+}
+
+//
+//
+//
+MushroomDataset::~MushroomDataset() {
+    Reopen();
+    PostProcess();
+}
+
+//
+// Берет строки исхдного файла и проставляет им номера кластеров.
+//
+void MushroomDataset::PostProcess() {
+    std::ifstream sourceDatasetFile;
+    sourceDatasetFile.open(sourceFilePath);
+
+    if (sourceDatasetFile.fail())
+        exit(1);
+
+    Transaction t;
+    while (ReadNextTransaction(t)) {
+        std::string srcLine;
+        sourceDatasetFile >> srcLine;
+        fileOut << srcLine + "," + std::to_string(t.clusterId) << std::endl;
+    }
+
+    sourceDatasetFile.close();
 }

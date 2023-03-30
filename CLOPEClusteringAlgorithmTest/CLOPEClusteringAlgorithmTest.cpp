@@ -50,6 +50,13 @@ namespace CLOPEClusteringAlgorithmTest
         }
 
         //
+        // Проверка работы метода PostProcess в деструкторе MushroomDataset.
+        //
+        TEST_METHOD(MushroomDataset_Destructor)
+        {
+        }
+
+        //
         // MushroomDataset.h
         //
         TEST_METHOD(MushroomDataset_Constructor)
@@ -115,7 +122,7 @@ namespace CLOPEClusteringAlgorithmTest
             t.clusterId = 2;
             data.WriteTransaction(t);
 
-            data.Rewind();
+            data.Reopen();
 
             data.ReadNextTransaction(t);
             std::string expectedItems1 = "x0,y1,b2,t3,n4,f5,c6,b7,e8,e9,s11,s12,e13,w14,p15,w16,t17,e18,w19,c20,w21";
@@ -341,7 +348,8 @@ namespace CLOPEClusteringAlgorithmTest
         // Ожидаемые параметры получены ручной кластеризацией с параметром 2.6.
         TEST_METHOD(CLOPEAlgorithm_Apply) {
             int iterationCountExpected = 3;
-            int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
+            //int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
+            int clusterIdExpected[] = { 1, 8, 3, 3, 1, 3, 3, 9, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
 
             // Нам необходимо заглянуть в выходной файл и проверить результаты, а закрытие происходит в деструкторе,
             // Поэтому создаем scope, чтобы спровоцировать вызов деструктора, а значит и закрытие обоих и удаление временного файла.

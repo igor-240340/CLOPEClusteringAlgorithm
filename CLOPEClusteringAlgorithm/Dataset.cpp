@@ -8,23 +8,26 @@
 // Открывает копию на чтение, а временный файл - на запись.
 //
 Dataset::Dataset(std::string filePath) {
-    std::string origFileName = std::filesystem::path(filePath).filename().string();
-    fileInPath = std::filesystem::path(filePath).replace_filename("copy_" + origFileName);
+    sourceFilePath = filePath;
+
+    std::string srcFileName = std::filesystem::path(filePath).filename().string();
+
+    fileInPath = std::filesystem::path(filePath).replace_filename("copy_" + srcFileName);
+    fileOutPath = std::filesystem::path(filePath).replace_filename("tmp_copy_" + srcFileName);
+
     std::filesystem::copy(filePath, fileInPath);
 
-    fileOutPath = std::filesystem::path(filePath).replace_filename("tmp_copy_" + origFileName);
+    Open();
 }
 
 //
-//
+// Результат обработки датасета (в т.ч. и постобработки в дочернем классе) на данном этапе находится во временном выходном файле,
+// поэтому чтобы его не потерять, мы перед закрытием переоткрываем выходной файл как входной, а новый временный выходной удаляем.
 //
 Dataset::~Dataset() {
+    Reopen();
     Close();
 
-    // После последней итерации, на которой не было зафиксировано ни одного перемещения между кластерами,
-    // выходной файл окажется эквивалентен входному.
-    // Эквивалентен он будет в смысле распределения транзакций по кластерам, но конкретные номера кластеров могут тем не менее измениться.
-    // В любом случае смысла менять эти файлы местами нет и мы просто оставляем результат предыдущей кластеризации а новый выходной файл удаляем.
     std::filesystem::remove(fileOutPath);
 }
 
@@ -72,9 +75,9 @@ void Dataset::WriteTransaction(Transaction& t) {
 }
 
 //
-// Удаляет входной файл, переименовывает временный выходной и открывает его как входной.
+// Переоткрывает выходной файл как входной.
 //
-void Dataset::Rewind() {
+void Dataset::Reopen() {
     Close();
 
     std::filesystem::remove(fileInPath);

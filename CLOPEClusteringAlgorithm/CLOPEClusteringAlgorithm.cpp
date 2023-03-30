@@ -7,9 +7,7 @@
 //
 unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float repulsion) {
     std::unordered_map<unsigned int, Cluster*> idToCluster;
-    Cluster emptyCluster;
-    std::list<Cluster> clusters = { emptyCluster }; // Пустой кластер - для оценки прироста целевой функции при добавлении транзакции в новый кластер.
-
+    std::list<Cluster> clusters = { Cluster() }; // Пустой кластер - для оценки прироста целевой функции при добавлении транзакции в новый кластер.
     unsigned short iterationCount = 0;
     bool thereWasMove; // Признак того, что хотя бы одна транзакция была перемещена между кластерами во время итерации.
     do {
@@ -18,7 +16,7 @@ unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float rep
 
         // Переоткрываем выходной файл с предыдущей итерации как входной.
         if (!initPhase) {
-            dataset.Rewind();
+            dataset.Reopen();
         }
 
         Transaction transac;
@@ -55,7 +53,7 @@ unsigned short CLOPEClusteringAlgorithm::Apply(Dataset& dataset, const float rep
                 // что в свою очередь эквивалентно отсутствию перемещения этой транзакции.
                 if (initPhase || !prevClusterWasEmpty) {
                     // NOTE:
-                    // Мы не попадаем в эту ветку на текущем тестовом датасете на фазе максимизации.
+                    // Мы не попадаем в эту ветку на текущем тестовом датасете по условию !prevClusterWasEmpty на фазе максимизации.
                     // То есть не возникает ситуация, когда удаление транзакции из существующего кластера (который содержит транзакций больше чем 1)
                     // и помещение её в новый пустой максимизирует целевую функцию.
                     thereWasMove = true;
