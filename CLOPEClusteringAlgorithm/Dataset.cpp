@@ -12,8 +12,8 @@ Dataset::Dataset(std::string filePath) {
 
     std::string srcFileName = std::filesystem::path(filePath).filename().string();
 
-    fileInPath = std::filesystem::path(filePath).replace_filename("copy_" + srcFileName);
-    fileOutPath = std::filesystem::path(filePath).replace_filename("tmp_copy_" + srcFileName);
+    fileInPath = std::filesystem::path(filePath).replace_filename("clustered_" + srcFileName);
+    fileOutPath = std::filesystem::path(filePath).replace_filename("tmp_clustered_" + srcFileName);
 
     std::filesystem::copy(filePath, fileInPath);
 

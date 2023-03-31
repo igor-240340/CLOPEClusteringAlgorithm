@@ -7,7 +7,7 @@
 class BookDataset : public Dataset
 {
 public:
-    BookDataset(std::string filePath);
+    BookDataset(std::string filePath, float wordRepulsion);
     ~BookDataset();
 
 protected:
@@ -21,4 +21,6 @@ private:
 
     std::string CleanWord(std::string word);
     std::string RemoveAuthorsFromName(std::string bookName);
+
+    float wordRepulsion;
 };

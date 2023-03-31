@@ -2,6 +2,6 @@
 Release/
 Debug/
 
-tmp_copy_*
-copy_*
+tmp_clustered_*
+clustered_*
 

@@ -37,11 +37,15 @@ namespace CLOPEClusteringAlgorithmTest
         {
             Logger::WriteMessage("In MethodCleanup");
 
-            // Файл copy_<datasetname> после работы всегда остается в файловой системе.
+            // Файл clustered_<datasetname> после работы всегда остается в файловой системе.
             // Закрытие файлов происходит в деструкторе, поэтому подчищаем за датасетом уже в этом методе,
             // когда для объекта вызван деструктор и файлы закрыты.
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset2.txt"); // Для тестов датасета.
-            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset.txt"); // Для теста всей кластеризации.
+            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/clustered_fake_dataset2.txt"); // Для тестов датасета.
+            std::filesystem::remove("../CLOPEClusteringAlgorithmTest/Fixtures/clustered_fake_dataset.txt"); // Для теста всей кластеризации.
+
+            // Подчищаем за тестом BookDataset.
+            std::filesystem::remove("../CLOPEClusteringAlgorithm/Data/clustered_books.txt");
+            std::filesystem::remove("../CLOPEClusteringAlgorithm/Data/clustered_words.txt");
         }
 
         TEST_CLASS_CLEANUP(ClassCleanup)
@@ -66,12 +70,12 @@ namespace CLOPEClusteringAlgorithmTest
             {
                 MushroomDataset data("../CLOPEClusteringAlgorithmTest/Fixtures/fake_dataset2.txt");
 
-                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset2.txt"));
-                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/tmp_copy_fake_dataset2.txt"));
+                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/clustered_fake_dataset2.txt"));
+                Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/tmp_clustered_fake_dataset2.txt"));
             }
 
-            Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset2.txt"));
-            Assert::IsFalse(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/tmp_copy_fake_dataset2.txt"));
+            Assert::IsTrue(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/clustered_fake_dataset2.txt"));
+            Assert::IsFalse(std::filesystem::exists("../CLOPEClusteringAlgorithmTest/Fixtures/tmp_clustered_fake_dataset2.txt"));
         }
 
         //
@@ -348,8 +352,24 @@ namespace CLOPEClusteringAlgorithmTest
         // Ожидаемые параметры получены ручной кластеризацией с параметром 2.6.
         TEST_METHOD(CLOPEAlgorithm_Apply) {
             int iterationCountExpected = 3;
-            //int clusterIdExpected[] = { 1, 6, 3, 3, 1, 3, 3, 7, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
-            int clusterIdExpected[] = { 1, 8, 3, 3, 1, 3, 3, 9, 3, 3 }; // Индекс - номер строки в файле датасета. Число - номер кластера.
+
+            // Индекс - номер строки в файле датасета. Число - номер кластера.
+            //
+            // Здесь даны абсолютные значения идентификаторов кластеров для случая,
+            // когда класс Cluster используется впервые и его внутренний счетчик уникальных идентификаторов изначально равен нулю.
+            //
+            // Но порядок выполнения тестов не определен однозначно,
+            // поэтому возможна ситуация, когда к моменту выполнения этого теста счетчик идентификаторов уже будет ненулевым,
+            // соответственно действительные и ожидаемые значения не будут совпадать между собой,
+            // хотя распределение транзакций по кластерам при этом может быть корректным.
+            //
+            // Поэтому проверять правильность распределения транзакций по кластерам будем косвенно:
+            // для этого достаточно убедиться, что между множеством ожидаемых идентификаторов кластеров и множеством действительных
+            // существует взаимно однозначное соответствие.
+            //
+            // То есть, нужно убедиться, что каждому идентификатору из множества ожидаемых
+            // соответствует ровно один идентификатор в множестве действительных и наоборот.
+            int clusterIdsExpected[] = { 1, 8, 3, 3, 1, 3, 3, 9, 3, 3 };
 
             // Нам необходимо заглянуть в выходной файл и проверить результаты, а закрытие происходит в деструкторе,
             // Поэтому создаем scope, чтобы спровоцировать вызов деструктора, а значит и закрытие обоих и удаление временного файла.
@@ -361,10 +381,12 @@ namespace CLOPEClusteringAlgorithmTest
 
             // Проверяет выходной файл после кластеризации.
             std::fstream resultFile;
-            resultFile.open("../CLOPEClusteringAlgorithmTest/Fixtures/copy_fake_dataset.txt");
+            resultFile.open("../CLOPEClusteringAlgorithmTest/Fixtures/clustered_fake_dataset.txt");
             if (resultFile.fail())
                 exit(1);
 
+            // Проверка взаимно однозначного соответствия.
+            std::unordered_map<int, int> expectedIdToActualId;
             int transactionIndex = 0;
             do {
                 std::string line;
@@ -378,9 +400,22 @@ namespace CLOPEClusteringAlgorithmTest
                 while (ss.good()) {
                     std::getline(ss, itemValue, ',');
 
+                    // Если начинается с цифры, то это идентификатор кластера.
                     if (itemValue.c_str()[0] >= 48 && itemValue.c_str()[0] <= 57) {
                         int clusterIdActual = std::stoi(itemValue.c_str(), nullptr, 10);
-                        Assert::AreEqual(clusterIdExpected[transactionIndex++], clusterIdActual);
+                        int clusterIdExpected = clusterIdsExpected[transactionIndex++];
+
+                        // Если ожидаемый идентификатор уже связан с каким-то действительным идентификатором,
+                        // то убеждаемся, что и на этой транзакции эта связь сохраняется.
+                        // В противном случае будет ситуация, когда одному элементу из множества
+                        // ожидаемых идентификаторов соответствует несколько элементом в множестве действительных.
+                        if (expectedIdToActualId.contains(clusterIdExpected)) {
+                            int clusterIdActualPrev = expectedIdToActualId[clusterIdExpected];
+                            Assert::IsTrue(clusterIdActual == clusterIdActualPrev);
+                        }
+                        else {
+                            expectedIdToActualId[clusterIdExpected] = clusterIdActual;
+                        }
                     }
                 }
             } while (true);
@@ -391,7 +426,7 @@ namespace CLOPEClusteringAlgorithmTest
         // Проверка BookDataset.
         //
         TEST_METHOD(BookDataset_Clustering) {
-            BookDataset data("../CLOPEClusteringAlgorithm/Data/books.txt");
+            BookDataset data("../CLOPEClusteringAlgorithm/Data/books.txt", 2.2f);
             unsigned int iterationCount = CLOPEClusteringAlgorithm::Perform(data, 1.3f);
 
             std::string logMsg = "Iterations: " + std::to_string(iterationCount);

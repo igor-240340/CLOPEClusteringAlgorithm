@@ -7,7 +7,9 @@
 //
 //
 //
-BookDataset::BookDataset(std::string filePath) : Dataset(filePath) {
+BookDataset::BookDataset(std::string filePath, const float wordRepulsion) : Dataset(filePath) {
+    this->wordRepulsion = wordRepulsion;
+
     PreProcess();
     Reopen();
 }
@@ -118,10 +120,10 @@ std::string BookDataset::CleanWord(std::string word) {
 //
 std::filesystem::path BookDataset::ClusterWords(std::filesystem::path wordsFilePath) {
     WordDataset words(wordsFilePath.string());
-    CLOPEClusteringAlgorithm::Perform(words, 2.2f);
+    CLOPEClusteringAlgorithm::Perform(words, wordRepulsion);
 
     // Кластеризованные слова будут находиться в копии исходного файла.
-    return std::filesystem::path(wordsFilePath).replace_filename("copy_" + wordsFilePath.filename().string());
+    return std::filesystem::path(wordsFilePath).replace_filename("clustered_" + wordsFilePath.filename().string());
 }
 
 //
