@@ -22,7 +22,7 @@ void BookDataset::PreProcess() {
     std::filesystem::path clusteredWordsFilePath = ClusterWords(wordsFilePath);
     ReplaceWordsWithClusterNames(clusteredWordsFilePath);
 
-    // Удаляем исходный файл со словами, а кластеризованные слова (файл copy_words) оставляем, чтобы можно было изучить.
+    // Удаляем исходный файл со словами, а кластеризованные слова (файл clustered_words) оставляем, чтобы можно было изучить.
     std::filesystem::remove(wordsFilePath);
 }
 
