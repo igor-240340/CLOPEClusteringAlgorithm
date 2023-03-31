@@ -50,7 +50,7 @@ MushroomDataset::~MushroomDataset() {
 }
 
 //
-// Берет строки исхдного файла и проставляет им номера кластеров.
+// Берет строки исходного файла и проставляет им номера кластеров.
 //
 void MushroomDataset::PostProcess() {
     std::ifstream sourceDatasetFile;

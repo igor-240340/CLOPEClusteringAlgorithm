@@ -101,7 +101,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)\CLOPEClusteringAlgorithm\Debug;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Dataset.obj;MushroomDataset.obj;Cluster.obj;CLOPEClusteringAlgorithm.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Dataset.obj;MushroomDataset.obj;WordDataset.obj;BookDataset.obj;Cluster.obj;CLOPEClusteringAlgorithm.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -4,6 +4,7 @@
 #include <filesystem>
 
 #include "MushroomDataset.h"
+#include "BookDataset.h"
 #include "Cluster.h"
 #include "CLOPEClusteringAlgorithm.h"
 

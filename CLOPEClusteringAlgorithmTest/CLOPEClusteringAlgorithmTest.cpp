@@ -386,5 +386,16 @@ namespace CLOPEClusteringAlgorithmTest
             } while (true);
             resultFile.close();
         }
+
+        //
+        // Проверка BookDataset.
+        //
+        TEST_METHOD(BookDataset_Clustering) {
+            BookDataset data("../CLOPEClusteringAlgorithm/Data/books.txt");
+            unsigned int iterationCount = CLOPEClusteringAlgorithm::Perform(data, 1.3f);
+
+            std::string logMsg = "Iterations: " + std::to_string(iterationCount);
+            Logger::WriteMessage(logMsg.c_str());
+        }
     };
 }
