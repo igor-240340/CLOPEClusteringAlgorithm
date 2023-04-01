@@ -6,10 +6,10 @@
 Дополнительную информацию можно посмотреть здесь: https://loginom.ru/blog/clope.
 
 ## Кластеризация
-### Датасет [a link]Грибы(https://github.com/igor-240340/CLOPEClusteringAlgorithm/blob/main/CLOPEClusteringAlgorithm/Data/agaricus-lepiota.data)
+### Датасет [Грибы](https://github.com/igor-240340/CLOPEClusteringAlgorithm/blob/main/CLOPEClusteringAlgorithm/Data/agaricus-lepiota.data)
 Использован классический датасет грибов взятый здесь: https://archive.ics.uci.edu/ml/datasets/mushroom.
 
-### Датасет [a link]Книги(https://github.com/igor-240340/CLOPEClusteringAlgorithm/blob/main/CLOPEClusteringAlgorithm/Data/books.txt)
+### Датасет [Книги](https://github.com/igor-240340/CLOPEClusteringAlgorithm/blob/main/CLOPEClusteringAlgorithm/Data/books.txt)
 Посмотреть результаты кластеризации при разных параметрах можно здесь: https://drive.google.com/file/d/1E0t2GpN3gsUR2ey7HX2NA9YbQvFteUtm/view?usp=share_link.
 > **Замечение**: 
 Кириллические названия в выходных файлах и в отчете в таблице имеют кракозябры.
