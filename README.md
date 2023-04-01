@@ -11,6 +11,7 @@
 
 ### Датасет [Книги](https://github.com/igor-240340/CLOPEClusteringAlgorithm/blob/main/CLOPEClusteringAlgorithm/Data/books.txt)
 Посмотреть результаты кластеризации при разных параметрах можно здесь: https://drive.google.com/file/d/1E0t2GpN3gsUR2ey7HX2NA9YbQvFteUtm/view?usp=share_link.
+
 > **Замечение**: 
 Кириллические названия в выходных файлах и в отчете в таблице имеют кракозябры.
 Это результат предобработки датасета слов, в ходе которого происходит удаление определенных символов: запятые, точки и др.
