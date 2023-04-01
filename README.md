@@ -1,7 +1,7 @@
 ﻿# CLOPEClusteringAlgorithm
 Реализация алгоритма кластеризации категорийных данных CLOPE.
 
-Оригинальная публикация - https://www.researchgate.net/publication/2589850_CLOPE_A_Fast_and_Effective_Clustering_Algorithm_for_Transactional_Data.
+Оригинальная публикация: https://www.researchgate.net/publication/2589850_CLOPE_A_Fast_and_Effective_Clustering_Algorithm_for_Transactional_Data.
 
 Дополнительную информацию можно посмотреть здесь: https://loginom.ru/blog/clope.
 
