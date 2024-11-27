@@ -1,5 +1,5 @@
 ﻿# CLOPEClusteringAlgorithm
-Реализация алгоритма кластеризации категорийных данных CLOPE.
+Тестовое задание по реализации алгоритма кластеризации категорийных данных CLOPE.
 
 Оригинальная публикация: https://www.researchgate.net/publication/2589850_CLOPE_A_Fast_and_Effective_Clustering_Algorithm_for_Transactional_Data.
 
